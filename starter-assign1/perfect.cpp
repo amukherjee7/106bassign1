@@ -137,7 +137,7 @@ STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes") {
 }
 
 */
-STUDENT_TEST("determine the largest size which your computer can complete in around 60 seconds or so"){
+STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 1000, largest = 8000;
 
     for (int size = smallest; size <= largest; size *= 2) {
