@@ -7,6 +7,7 @@
 #include "console.h"
 #include <iostream>
 #include "SimpleTest.h" // IWYU pragma: keep (needed to quiet spurious warning)
+#include <math.h>
 using namespace std;
 
 /* The divisorSum function takes one argument `n` and calculates the
@@ -55,7 +56,14 @@ void findPerfects(long stop) {
  * header comment.
  */
 long smarterSum(long n) {
-    /* TODO: Fill in this function. */
+    long newTotal = 0;
+    for (long newDivisor = 1; newDivisor <= sqrt(n); newDivisor++) {
+
+        if (n % newDivisor == 0) {
+
+            total += divisor;
+        }
+    }
     return 0;
 }
 
@@ -143,4 +151,10 @@ STUDENT_TEST("determine the largest size which your computer can complete in aro
     for (int size = smallest; size <= largest; size *= 2) {
         TIME_OPERATION(size, findPerfects(size));
     }
+}
+
+STUDENT_TEST("try negative inputs") {
+    EXPECT(!(isPerfect(-1)));
+    EXPECT(!(isPerfect(-10)));
+    EXPECT(!(isPerfect(-100)));
 }
