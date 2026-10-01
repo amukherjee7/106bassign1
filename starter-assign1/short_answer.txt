@@ -2,13 +2,13 @@ Perfect Numbers
 ---------------
 
 Q1. Roughly how long did it take your computer to do the search? How many perfect numbers were found and what were they?
-A1. It took my computer around 0.05 secs to do the search. 3 perfect numbers were found: 6, 28, and 496. 
+A1. It took my computer around 0.05 secs to do the initial search to 40000. 4 perfect numbers were found: 6, 28, 496, 8128.
 
 Q2. Make a table of the timing results for `findPerfects` that you observed. (old-school table of text rows and columns is just fine)
-A2. size = 1000   0.014 secs
-    size = 2000   0.015 secs
-    size = 4000   0.023 secs
-    size = 8000   0.058 secs
+A2. size = 56250    0.975 secs
+    size = 112500   3.906 secs
+    size = 225000   15.637 secs
+    size = 450000   62.151 secs
 
 Q3. Does it take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000? Why or why not? Does it take the same amount of work for `findPerfects` to search the range of numbers from 1-1000 as it does to search the numbers from 1000-2000? Why or why not?
 A3. No, it does not take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000. This is because processing larger numbers requires more compute power and time to process through all the different divisors. 
@@ -28,7 +28,7 @@ A7. TODO
 Q8. Make a prediction: how long will `findPerfectsSmarter` take to reach the fifth perfect number?
 A8. TODO
 
-Q9. Explain how you chose your specific test cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
+Q9. Explain how you chose your specific dtest cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
 A9. TODO
 
 Soundex

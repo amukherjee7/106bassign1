@@ -7,7 +7,6 @@
 #include "console.h"
 #include <iostream>
 #include "SimpleTest.h" // IWYU pragma: keep (needed to quiet spurious warning)
-#include <math.h>
 using namespace std;
 
 /* The divisorSum function takes one argument `n` and calculates the
@@ -56,14 +55,7 @@ void findPerfects(long stop) {
  * header comment.
  */
 long smarterSum(long n) {
-    long newTotal = 0;
-    for (long newDivisor = 1; newDivisor <= sqrt(n); newDivisor++) {
-
-        if (n % newDivisor == 0) {
-
-            total += divisor;
-        }
-    }
+    /* TODO: Fill in this function. */
     return 0;
 }
 
@@ -79,7 +71,7 @@ bool isPerfectSmarter(long n) {
  * header comment.
  */
 void findPerfectsSmarter(long stop) {
-     /* TODO: Fill in this function. */
+    /* TODO: Fill in this function. */
 }
 
 /* TODO: Replace this comment with a descriptive function
@@ -146,15 +138,17 @@ STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes") {
 
 */
 STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
-    int smallest = 1000, largest = 8000;
+    int smallest = 56250, largest = 450000;
 
     for (int size = smallest; size <= largest; size *= 2) {
         TIME_OPERATION(size, findPerfects(size));
     }
 }
 
-STUDENT_TEST("try negative inputs") {
-    EXPECT(!(isPerfect(-1)));
-    EXPECT(!(isPerfect(-10)));
-    EXPECT(!(isPerfect(-100)));
+STUDENT_TEST("isPerfect on negative numbers"){
+    int smallest = -10000, largest = -1;
+
+    for (int number = smallest; number <= largest; number++){
+        EXPECT(!isPerfect(number));
+    }
 }
