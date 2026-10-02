@@ -79,8 +79,7 @@ long smarterSum(long n) {
  * header comment.
  */
 bool isPerfectSmarter(long n) {
-    /* TODO: Fill in this function. */
-    return false;
+    return (n != 0) && (n == smarterSum(n));
 }
 
 /* TODO: Replace this comment with a descriptive function
@@ -88,6 +87,13 @@ bool isPerfectSmarter(long n) {
  */
 void findPerfectsSmarter(long stop) {
     /* TODO: Fill in this function. */
+    for (long num = 1; num < stop; num++) {
+        if (isPerfectSmarter(num)) {
+            cout << "Found perfect number: " << num << endl;
+        }
+        if (num % 10000 == 0) cout << "." << flush; // progress bar
+    }
+    cout << endl << "Done searching up to " << stop << endl;
 }
 
 /* TODO: Replace this comment with a descriptive function
@@ -153,6 +159,7 @@ STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes") {
 }
 
 */
+
 STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 56250, largest = 450000;
 
@@ -167,4 +174,20 @@ STUDENT_TEST("isPerfect on negative numbers"){
     for (int number = smallest; number <= largest; number++){
         EXPECT(!isPerfect(number));
     }
+}
+
+STUDENT_TEST("smarterSum matches divisorSum on perfect squares") {
+    EXPECT_EQUAL(smarterSum(25), divisorSum(25));
+    EXPECT_EQUAL(smarterSum(36), divisorSum(36));
+}
+
+STUDENT_TEST("smarterSum matches divisorSum on small and edge inputs") {
+    EXPECT_EQUAL(smarterSum(1), divisorSum(1));
+    EXPECT_EQUAL(smarterSum(0), divisorSum(0)); EXPECT_EQUAL(smarterSum(-5), divisorSum(-5));
+}
+
+STUDENT_TEST("smarterSum matches divisorSum on primes and perfect numbers") {
+    EXPECT_EQUAL(smarterSum(13), divisorSum(13));
+    EXPECT_EQUAL(smarterSum(28), divisorSum(28));
+    EXPECT_EQUAL(smarterSum(496), divisorSum(496));
 }

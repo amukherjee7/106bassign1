@@ -2,7 +2,7 @@ Perfect Numbers
 ---------------
 
 Q1. Roughly how long did it take your computer to do the search? How many perfect numbers were found and what were they?
-A1. It took my computer around 0.05 secs to do the initial search to 40000. 4 perfect numbers were found: 6, 28, 496, 8128.
+A1. It took my computer around 0.5 secs to do the initial search to 40000 (timed with stopwatch). 4 perfect numbers were found: 6, 28, 496, 8128.
 
 Q2. Make a table of the timing results for `findPerfects` that you observed. (old-school table of text rows and columns is just fine)
 A2. size = 56250    0.975 secs
@@ -11,16 +11,16 @@ A2. size = 56250    0.975 secs
     size = 450000   62.151 secs
 
 Q3. Does it take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000? Why or why not? Does it take the same amount of work for `findPerfects` to search the range of numbers from 1-1000 as it does to search the numbers from 1000-2000? Why or why not?
-A3. No, it does not take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000. This is because processing larger numbers requires more compute power and time to process through all the different divisors. 
+A3. No, it does not take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000. isPerfect calls divisorSum, which loops from 1 to n−1, so isPerfect(10) runs about 9 iterations and isPerfect(1000) runs about 999. Larger numbers take more work because the function is checking through more divisors that come before it. 2nd part: No. Both ranges have 1000 numbers, but each number in 1000–2000 needs more loop iterations (because larger numbers = more divisors logic) to check than each number in 1–1000.
 
 Q4. Extrapolate from the data you gathered and make a prediction: how long will it take `findPerfects` to reach the fifth perfect number?
-A4. TODO
+A4. Doubling the search size made the runtime go up by about 4 times, so the time grows with the square of the search size. The fifth perfect number, 33,550,336, is about 75 times larger than my biggest trial of 450,000. That means the search would take about 75 × 75, times longer than my 62-second trial. Which is 50,000 seconds, or around 4 days.
 
 Q5. Do any of the tests still pass even with this broken function? Why or why not?
-A5. Yes, all the negative tests passed because the broken function returns false for every number we input into the function. Since we start total at 1, divisorSum will always return a number that is equal to n+1. As a result, the boolean in isPerfect will always return false, since n+1 does not equal n. This means that, even when we break the function, the tests will pass without even checking if the number is negative. 
+A5. Yes, all the negative tests passed. Since total starts at 1, divisorSum returns 1 for every negative number, because the loop never runs. As a result, isPerfect always returns false, since a negative number never equals 1. This means that even with the broken function, the tests pass without ever actually checking whether the number is negative.
 
 Q6. Explain your testing strategy for `smarterSum` and how you chose your specific test cases that lead you to be confident the function is working correctly.
-A6. TODO
+A6. I tested smarterSum by comparing its results to divisorSum, since divisorSum is already known to be correct. I used perfect squares like 25 and 36 to make sure the square root isn't counted twice. I tested 1, 0, and a negative number because those are edge cases where the loop might not run. I also tested a prime and some perfect numbers to make sure the divisor pairs add up correctly.
 
 Q7. Record your timing results for `findPerfectsSmarter` into a table.
 A7. TODO
