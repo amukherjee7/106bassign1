@@ -51,12 +51,28 @@ void findPerfects(long stop) {
     cout << endl << "Done searching up to " << stop << endl;
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
+/*
+ * The smarterSum function takes n and calculates the sum of divisors
+ * of n excluding itself. Instead of looping all the way to n-1, it only
+ * loops up to the square root of n. Each time it finds a divisor,
+ * it also adds the matching pair (n / divisor), as long as the pair
+ * isn't the same number.
  */
 long smarterSum(long n) {
-    /* TODO: Fill in this function. */
-    return 0;
+    if (n <=1){
+        return 0;
+    }
+    long total = 1;
+    for (long divisor = 2; divisor <= sqrt(n); divisor++){
+        if (n % divisor ==0){
+            total += divisor;
+            long pair = n / divisor;
+            if (pair != divisor){
+                total += pair;
+            }
+        }
+    }
+    return total;
 }
 
 /* TODO: Replace this comment with a descriptive function
