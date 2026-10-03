@@ -75,18 +75,22 @@ long smarterSum(long n) {
     return total;
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
+/* isPerfectSmarter takes n and returns a
+ * boolean value telling whether or not n is perfect.
+ * It works the same as isPerfect but uses smarterSum instead of divisorSum
+ * to calculate the sum of divisors faster.
  */
 bool isPerfectSmarter(long n) {
     return (n != 0) && (n == smarterSum(n));
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
+
+/* findPerfectsSmarter takes stop and performs a search for perfect numbers over the range 1 to stop.
+ * It works the same as findPerfects but uses isPerfectSmarter, so the search runs faster.
+ * Each perfect number found is printed to the console.
  */
+
 void findPerfectsSmarter(long stop) {
-    /* TODO: Fill in this function. */
     for (long num = 1; num < stop; num++) {
         if (isPerfectSmarter(num)) {
             cout << "Found perfect number: " << num << endl;
