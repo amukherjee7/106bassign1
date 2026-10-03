@@ -32,7 +32,7 @@ Q8. Make a prediction: how long will `findPerfectsSmarter` take to reach the fif
 A8. Doubling the search size made the runtime go up by about 2.7 times, which matches N√N growth. The fifth perfect number, 33,550,336, is about 1.5 times larger than my biggest trial of 22,000,000. Growing by N√N, that makes the search take about 1.9 times longer than my 59-second trial, which is around 110 seconds.
 
 Q9. Explain how you chose your specific dtest cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
-A9. TODO
+A9. I checked that the function returns the right numbers by comparing them to the table of known perfect numbers for n = 1 to 5. I put the 4th and 5th in their own test since they come after some k values that don't give primes, so they check that the function only counts the right ones. I also used isPerfectSmarter to make sure each answer is actually perfect, and checked that each result is bigger than the one before it so nothing gets skipped or repeated.
 
 Soundex
 -------
