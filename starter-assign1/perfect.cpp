@@ -100,12 +100,27 @@ void findPerfectsSmarter(long stop) {
     cout << endl << "Done searching up to " << stop << endl;
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
+/* The findNthPerfectEuclid function takes n and returns the nth perfect number.
+ * It loops through values of k, calculating the Mersenne number 2^k - 1 each time.
+ * If that number is prime, it uses Euclid's formula 2^(k-1) * (2^k - 1)
+ * to get a perfect number and adds one to the count to keep track of nth perfect number we're on right now.
+ * Once the count reaches n (meaning it has found the nth perfect number),
+ * the loop stops and returns the last perfect number found.
  */
+
 long findNthPerfectEuclid(long n) {
     /* TODO: Fill in this function. */
-    return 0;
+    long counter = 0;
+    long latestperfectnum = 0;
+    for (long k = 1; counter < n; k++){
+        long m = (long)pow(2,k) - 1;
+        if (smarterSum(m) ==1) {
+            counter++;
+            latestperfectnum = (long)pow(2, k - 1);
+        }
+    }
+
+    return latestperfectnum;
 }
 
 
@@ -145,26 +160,7 @@ PROVIDED_TEST("Time trial of findPerfects on input size 1000") {
     TIME_OPERATION(1000, findPerfects(1000));
 }
 
-
-// TODO: add your student test cases here
-
-/*
- * Below is a suggestion of how to use a loop to set the input sizes
- * for a sequence of time trials.
- *
- *
-STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes") {
-
-    int smallest = 1000, largest = 8000;
-
-    for (int size = smallest; size <= largest; size *= 2) {
-        TIME_OPERATION(size, findPerfects(size));
-    }
-}
-
-*/
-
-/*thisismine STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
+STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 56250, largest = 450000;
 
     for (int size = smallest; size <= largest; size *= 2) {
@@ -196,7 +192,6 @@ STUDENT_TEST("smarterSum matches divisorSum on primes and perfect numbers") {
     EXPECT_EQUAL(smarterSum(496), divisorSum(496));
 }
 
-*/
 
 STUDENT_TEST("Multiple time trials of findPerfectsSmarter on increasing input sizes"){
     int smallest = 1750000, largest = 14000000;
