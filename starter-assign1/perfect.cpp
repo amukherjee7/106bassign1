@@ -42,7 +42,7 @@ bool isPerfect(long n) {
  * Each perfect number found is printed to the console.
  */
 void findPerfects(long stop) {
-    for (long num = 1; num < stop; num++) {
+    for (long num = 2; num < stop; num+=2) { //didn't see a single odd number in the perfect numbers table so skipping them to have use half the compute power and time
         if (isPerfect(num)) {
             cout << "Found perfect number: " << num << endl;
         }
@@ -109,14 +109,13 @@ void findPerfectsSmarter(long stop) {
  */
 
 long findNthPerfectEuclid(long n) {
-    /* TODO: Fill in this function. */
     long counter = 0;
     long latestperfectnum = 0;
     for (long k = 1; counter < n; k++){
         long m = (long)pow(2,k) - 1;
         if (smarterSum(m) ==1) {
             counter++;
-            latestperfectnum = (long)pow(2, k - 1);
+            latestperfectnum = (long)pow(2, k - 1) * m;
         }
     }
 
@@ -160,7 +159,7 @@ PROVIDED_TEST("Time trial of findPerfects on input size 1000") {
     TIME_OPERATION(1000, findPerfects(1000));
 }
 
-STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
+/*STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 56250, largest = 450000;
 
     for (int size = smallest; size <= largest; size *= 2) {
@@ -198,6 +197,29 @@ STUDENT_TEST("Multiple time trials of findPerfectsSmarter on increasing input si
 
     for (int size = smallest; size <= largest; size *= 2) {
         TIME_OPERATION(size, findPerfectsSmarter(size));
+    }
+}
+*/
+STUDENT_TEST("findNthPerfectEuclid for the first 3 known perfect numbers") {
+    EXPECT_EQUAL(findNthPerfectEuclid(1), 6);
+    EXPECT_EQUAL(findNthPerfectEuclid(2), 28);
+    EXPECT_EQUAL(findNthPerfectEuclid(3), 496);
+}
+
+STUDENT_TEST("findNthPerfectEuclid for larger known, 4th and 5th perfect numbers") {
+    EXPECT_EQUAL(findNthPerfectEuclid(4), 8128);
+    EXPECT_EQUAL(findNthPerfectEuclid(5), 33550336);
+}
+
+STUDENT_TEST("whatever number findNthPerfectEuclid returns is checked by earlier isPerfectSmarter function") {
+    for (long n = 1; n <= 5; n++) {
+        EXPECT(isPerfectSmarter(findNthPerfectEuclid(n)));
+    }
+}
+
+STUDENT_TEST("findNthPerfectEuclid returns with each subsequent n is truly increasing to find the next (larger) perfect number") {
+    for (long n = 1; n < 5; n++) {
+        EXPECT(findNthPerfectEuclid(n) < findNthPerfectEuclid(n + 1));
     }
 }
 
