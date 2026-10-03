@@ -42,7 +42,7 @@ bool isPerfect(long n) {
  * Each perfect number found is printed to the console.
  */
 void findPerfects(long stop) {
-    for (long num = 2; num < stop; num+=2) { //didn't see a single odd number in the perfect numbers table so skipping them to have use half the compute power and time
+    for (long num = 1; num < stop; num++) {
         if (isPerfect(num)) {
             cout << "Found perfect number: " << num << endl;
         }
@@ -63,7 +63,7 @@ long smarterSum(long n) {
         return 0;
     }
     long total = 1;
-    for (long divisor = 2; divisor <= sqrt(n); divisor++){
+    for (long divisor = 2; divisor <= sqrt(n); divisor++){ //question: can an odd number be a perfect number, we can do like increment by 2 then, more efficient function?
         if (n % divisor ==0){
             total += divisor;
             long pair = n / divisor;
@@ -85,13 +85,14 @@ bool isPerfectSmarter(long n) {
 }
 
 
-/* findPerfectsSmarter takes stop and performs a search for perfect numbers over the range 1 to stop.
+/* findPerfectsSmarter takes stop and performs a search for perfect numbers over the range 2 to stop
+ * (only checks even numbers for perfectness since no odd perfects exist in the provided perfect numbers table).
  * It works the same as findPerfects but uses isPerfectSmarter, so the search runs faster.
  * Each perfect number found is printed to the console.
  */
 
 void findPerfectsSmarter(long stop) {
-    for (long num = 1; num < stop; num++) {
+    for (long num = 2; num < stop; num+=2) { //didn't see a single odd number in the perfect numbers table so skipping them to have use half the compute power and time
         if (isPerfectSmarter(num)) {
             cout << "Found perfect number: " << num << endl;
         }
@@ -159,7 +160,7 @@ PROVIDED_TEST("Time trial of findPerfects on input size 1000") {
     TIME_OPERATION(1000, findPerfects(1000));
 }
 
-/*STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
+STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 56250, largest = 450000;
 
     for (int size = smallest; size <= largest; size *= 2) {
@@ -193,13 +194,13 @@ STUDENT_TEST("smarterSum matches divisorSum on primes and perfect numbers") {
 
 
 STUDENT_TEST("Multiple time trials of findPerfectsSmarter on increasing input sizes"){
-    int smallest = 1750000, largest = 14000000;
+    int smallest = 2750000, largest = 22000000;
 
     for (int size = smallest; size <= largest; size *= 2) {
         TIME_OPERATION(size, findPerfectsSmarter(size));
     }
 }
-*/
+
 STUDENT_TEST("findNthPerfectEuclid for the first 3 known perfect numbers") {
     EXPECT_EQUAL(findNthPerfectEuclid(1), 6);
     EXPECT_EQUAL(findNthPerfectEuclid(2), 28);

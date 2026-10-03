@@ -23,13 +23,13 @@ Q6. Explain your testing strategy for `smarterSum` and how you chose your specif
 A6. I tested smarterSum by comparing its results to divisorSum, since divisorSum is already known to be correct. I used perfect squares like 25 and 36 to make sure the square root isn't counted twice. I tested 1, 0, and a negative number because those are edge cases where the loop might not run. I also tested a prime and some perfect numbers to make sure the divisor pairs add up correctly.
 
 Q7. Record your timing results for `findPerfectsSmarter` into a table.
-A7. size = 1750000    2.824 secs
-    size = 3500000    7.774 secs
-    size = 7000000    21.859 secs
-    size = 14000000   60.206 secs
+A7. size = 2750000    3.047 secs
+    size = 5500000    7.880 secs
+    size = 11000000   21.444 secs
+    size = 22000000   59.018 secs
 
 Q8. Make a prediction: how long will `findPerfectsSmarter` take to reach the fifth perfect number?
-A8. Doubling the search size made the runtime go up by about 2.75 times, which matches N√N growth. The fifth perfect number, 33,550,336, is about 2.4 times larger than my biggest trial of 14,000,000. Growing by N√N, that makes the search take about 3.7 times longer than my 60-second trial, which is around 220 seconds.
+A8. Doubling the search size made the runtime go up by about 2.7 times, which matches N√N growth. The fifth perfect number, 33,550,336, is about 1.5 times larger than my biggest trial of 22,000,000. Growing by N√N, that makes the search take about 1.9 times longer than my 59-second trial, which is around 110 seconds.
 
 Q9. Explain how you chose your specific dtest cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
 A9. TODO
