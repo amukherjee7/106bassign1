@@ -164,7 +164,7 @@ STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes") {
 
 */
 
-STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
+/*thisismine STUDENT_TEST("Multiple time trials of findPerfects on increasing input sizes"){
     int smallest = 56250, largest = 450000;
 
     for (int size = smallest; size <= largest; size *= 2) {
@@ -195,3 +195,14 @@ STUDENT_TEST("smarterSum matches divisorSum on primes and perfect numbers") {
     EXPECT_EQUAL(smarterSum(28), divisorSum(28));
     EXPECT_EQUAL(smarterSum(496), divisorSum(496));
 }
+
+*/
+
+STUDENT_TEST("Multiple time trials of findPerfectsSmarter on increasing input sizes"){
+    int smallest = 1750000, largest = 14000000;
+
+    for (int size = smallest; size <= largest; size *= 2) {
+        TIME_OPERATION(size, findPerfectsSmarter(size));
+    }
+}
+
