@@ -46,16 +46,23 @@ string soundex(string initialInput) {
 void soundexSearch(string filepath) {
     ifstream in;
     Vector<string> allNames;
+    Vector<string> matchingNames;
 
     if (openFile(in, filepath)) {
         allNames = readLines(in);
     }
     cout << "Read file " << filepath << ", "
-         << allNames.size() << " names found." << endl;
+         << allNames.size() << " names found." << endl; // // The names read from file are now stored in Vector allNames
 
-    // The names read from file are now stored in Vector allNames
-
-    /* TODO: Fill in the remainder of this function. */
+    // Get user input
+    string name_input = getLine("Input name: ");
+    string user_code = soundex(name_input);
+    for (int i = 0; i < allNames.size(); i++) {
+        if (soundex(allNames[i]) == user_code) {
+            matchingNames.add(allNames[i]);
+        }
+    }
+    cout << matchingNames << endl;
 }
 
 
@@ -206,6 +213,59 @@ PROVIDED_TEST("Ashcraft is not a special case") {
     EXPECT_EQUAL(soundex("Ashcraft"), "A226");
 }
 
-// TODO: add your test cases here
+// Student test cases
+STUDENT_TEST("lettersOnly removes a non-letter at the start") {
+    EXPECT_EQUAL(lettersOnly("9Tom"), "Tom");
+    EXPECT_EQUAL(lettersOnly("'Pen"), "Pen");
+}
+
+STUDENT_TEST("lettersOnly on strings with no letters or empty string") {
+    EXPECT_EQUAL(lettersOnly(""), "");
+    EXPECT_EQUAL(lettersOnly("6767-!"), "");
+}
+
+STUDENT_TEST("encode turns each letter into the right digit") {
+    EXPECT_EQUAL(encode("Curie"), "20600");
+    EXPECT_EQUAL(encode("Jackson"), "2022205");
+}
+
+STUDENT_TEST("encode handles lowercase and rare letters") {
+    EXPECT_EQUAL(encode("abc"), "012");
+    EXPECT_EQUAL(encode("Q"), "2");
+    EXPECT_EQUAL(encode("W"), "0");
+}
+
+STUDENT_TEST("removeDuplicates puts together repeats next to each other") {
+    EXPECT_EQUAL(removeDuplicates("222025"), "2025");
+    EXPECT_EQUAL(removeDuplicates("2022205"), "20205");
+}
+
+STUDENT_TEST("removeDuplicates keeps all other repeats and single digits") {
+    EXPECT_EQUAL(removeDuplicates("2020"), "2020");
+    EXPECT_EQUAL(removeDuplicates("1"), "1");
+}
+
+STUDENT_TEST("replaceFirst swaps the first digit for the uppercase first letter") {
+    EXPECT_EQUAL(repFirst("Boral"), "B");
+}
+
+STUDENT_TEST("removeZeroes removes all zeros and keeps everything else") {
+    EXPECT_EQUAL(removeZeroes("A000"), "A");
+}
+
+STUDENT_TEST("soundex on Angelou and my surname Boral") {
+    EXPECT_EQUAL(soundex("Angelou"), "A524");
+    EXPECT_EQUAL(soundex("Boral"), "B640");
+}
+
+STUDENT_TEST("soundex on a single letter and a mixed case name") {
+    EXPECT_EQUAL(soundex("A"), "A000");
+    EXPECT_EQUAL(soundex("McDonald"), "M235");
+}
+
+STUDENT_TEST("fixLength cuts off too long codes and adds zeroes if too short"){
+    EXPECT_EQUAL(fixLength("24315"), "243");
+    EXPECT_EQUAL(fixLength("24"), "240");
+}
 
 

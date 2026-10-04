@@ -11,11 +11,8 @@ int main() {
         return 0;
     }
 
-    findPerfects(40000);
-    // Comment out the above line and uncomment below line 
-    // to switch between running perfect.cpp and soundex.cpp
-//    soundexSearch("res/surnames.txt");
-
+    //findPerfects(40000);
+    soundexSearch("res/surnames.txt");
     cout << endl << "main() completed." << endl;
     return 0;
 }
@@ -25,10 +22,10 @@ int main() {
 // Do not remove or edit below this line. It is here to tom confirm that your code
 // conforms to the expected function prototypes needed for grading
 void confirmFunctionPrototypes() {
-    long n = 0;
-    bool b;
+    //long n = 0;
+    //bool b;
     string s;
-
+    /*
     n = divisorSum(n);
     b = isPerfect(n);
     findPerfects(n);
@@ -38,7 +35,7 @@ void confirmFunctionPrototypes() {
     findPerfectsSmarter(n);
 
     n = findNthPerfectEuclid(n);
-
+    */
     s = lettersOnly(s);
     s = soundex(s);
     soundexSearch(s);
