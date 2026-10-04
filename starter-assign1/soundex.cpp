@@ -20,10 +20,10 @@ string initialInput;
 string c;
 
 // Intialize functions
-string repFirst(string initialInput);
 string lettersOnly(string s);
 string encode(string s);
 string removeDuplicates(string s);
+string replaceFirst(string code, string letters);
 string removeZeroes(string s);
 string fixLength(string s);
 string soundex(string s);
@@ -33,14 +33,13 @@ void soundexSearch();
 /* TODO: Replace this comment with a descriptive function
  * header comment.
  */
-string soundex(string initialInput) {
-    string firstChar = repFirst(initialInput);
-    string letters = lettersOnly(initialInput);
-    string nums = encode(letters);
-    string noDupes = removeDuplicates(nums);
-    string noZeroes = removeZeroes(noDupes);
-    string code = fixLength(noZeroes);
-    return nums;
+string soundex(string s) {
+    string letters = lettersOnly(s);
+    string digits = encode(letters);
+    string noDupes = removeDuplicates(digits);
+    string withLetter = replaceFirst(noDupes, letters);
+    string noZeroes = removeZeroes(withLetter);
+    return fixLength(noZeroes);
 }
 
 /* TODO: Replace this comment with a descriptive function
@@ -67,8 +66,8 @@ void soundexSearch(string filepath) {
 /* TODO: Replace this comment with a descriptive function
  * header comment.
  */
-string repFirst(string intialInput) {
-    return std::to_string(initialInput[0]);
+string replaceFirst(string code, string letters) {
+    return charToString(toupper(letters[0])) + code.substr(1);
 }
 
 /* TODO: Replace this comment with a descriptive function
@@ -121,9 +120,9 @@ string encode(string s) {
  * header comment.
  */
 string removeDuplicates(string s) {
-    string result = "";
-    for (int i = 0; i < s.length() - 1; i++) {
-        if (s[i] != s[i + 1]) {
+    string result = charToString(s[0]);
+    for (int i = 1; i < s.length(); i++) {
+        if (s[i] != s[i - 1]) {
             result += s[i];
         }
     }
@@ -145,22 +144,20 @@ string removeDuplicates(string s) {
  *
  */
 string removeZeroes(string s) {
-    string ret = "";
-    for (int i = 0; i < s.length(); i++) {
-        if (s[i] != 0) {
-            ret += s[i];
+    string result = "";
+    for (char ch : s) {
+        if (ch != '0') {
+            result += ch;
         }
     }
-    return ret;
+    return result;
 }
 
 string fixLength(string s) {
-    if (s.length() < 3) {
-        while (s.length() != 3) {
-            s += "0";
-        }
+    while (s.length() < 4) {
+        s += "0";
     }
-    return s;
+    return s.substr(0, 4);
 }
 
 /* * * * * * Test Cases * * * * * */
@@ -232,4 +229,60 @@ PROVIDED_TEST("Ashcraft is not a special case") {
 
 // TODO: add your test cases here
 
+STUDENT_TEST("lettersOnly removes a non-letter at the start") {
+    EXPECT_EQUAL(lettersOnly("9Tom"), "Tom");
+    EXPECT_EQUAL(lettersOnly("'Pen"), "Pen");
+}
 
+STUDENT_TEST("lettersOnly on strings with no letters or empty string") {
+    EXPECT_EQUAL(lettersOnly(""), "");
+    EXPECT_EQUAL(lettersOnly("6767-!"), "");
+}
+
+STUDENT_TEST("encode turns each letter into the right digit") {
+    EXPECT_EQUAL(encode("Curie"), "20600");
+    EXPECT_EQUAL(encode("Jackson"), "2022205");
+}
+
+STUDENT_TEST("encode handles lowercase and rare letters") {
+    EXPECT_EQUAL(encode("abc"), "012");
+    EXPECT_EQUAL(encode("Q"), "2");
+    EXPECT_EQUAL(encode("W"), "0");
+}
+
+STUDENT_TEST("removeDuplicates puts together repeats next to each other") {
+    EXPECT_EQUAL(removeDuplicates("222025"), "2025");
+    EXPECT_EQUAL(removeDuplicates("2022205"), "20205");
+}
+
+STUDENT_TEST("removeDuplicates keeps all other repeats and single digits") {
+    EXPECT_EQUAL(removeDuplicates("2020"), "2020");
+    EXPECT_EQUAL(removeDuplicates("1"), "1");
+}
+
+STUDENT_TEST("replaceFirst swaps the first digit for the uppercase first letter") {
+    EXPECT_EQUAL(replaceFirst("20205", "Boral"), "B0604");
+}
+
+STUDENT_TEST("removeZeroes removes all zeros and keeps everything else") {
+    EXPECT_EQUAL(removeZeroes("A000"), "A");
+}
+
+STUDENT_TEST("fixLength beefs up short codes with zeros") {
+    EXPECT_EQUAL(fixLength("L"), "L000");
+}
+
+STUDENT_TEST("fixLength cuts long codes and leaves length 4 alone") {
+    EXPECT_EQUAL(fixLength("E2423"), "E242");
+    EXPECT_EQUAL(fixLength("D640"), "D640");
+}
+
+STUDENT_TEST("soundex on Angelou and my surname Boral") {
+    EXPECT_EQUAL(soundex("Angelou"), "A524");
+    EXPECT_EQUAL(soundex("Boral"), "B640");
+}
+
+STUDENT_TEST("soundex on a single letter and a mixed case name") {
+    EXPECT_EQUAL(soundex("A"), "A000");
+    EXPECT_EQUAL(soundex("McDonald"), "M235");
+}
