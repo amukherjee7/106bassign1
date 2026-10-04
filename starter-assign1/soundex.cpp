@@ -90,29 +90,28 @@ string lettersOnly(string s) {
  */
 string encode(string s) {
     string result = "";
-    string removeFirst = s.substr(1);
-    string input = toUpperCase(removeFirst);
+    string input = toUpperCase(s);
     for (char ch : input) {
-        if (ch == "A" || "E" || "I" || "O" || "U" || "H" || "W" || "Y") {
-            result += "0";
+        if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' || ch == 'H' || ch == 'W' || ch == 'Y') {
+            result += '0';
         }
-        else if (ch == "B" || "F" || "P" || "V") {
-            result += "1";
+        else if (ch == 'B' || ch == 'F' || ch == 'P' || ch == 'V') {
+            result += '1';
         }
-        else if (ch == "C" || "G" || "J" || "K" || "W" || "S" || "X" || "Z") {
-            result += "2";
+        else if (ch == 'C' || ch == 'G' || ch == 'J' || ch == 'K' || ch == 'Q' || ch == 'S' || ch == 'X' || ch == 'Z') {
+            result += '2';
         }
-        else if (ch == "D" || "T") {
-            result += "3";
+        else if (ch == 'D' || ch == 'T') {
+            result += '3';
         }
-        else if (ch == "L") {
-            result += "4";
+        else if (ch == 'L') {
+            result += '4';
         }
-        else if (ch == "M" || "N") {
-            result += "5";
+        else if (ch == 'M' || ch == 'N') {
+            result += '5';
         }
-        else if (ch == "R") {
-            result += "6";
+        else if (ch == 'R') {
+            result += '6';
         }
     }
     return result;
