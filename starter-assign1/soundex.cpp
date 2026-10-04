@@ -12,7 +12,7 @@
 #include "filelib.h"
 #include "simpio.h"
 #include "vector.h"
-#include "SimpleTest.h" // IWYU pragma: keep (needed to quiet spurious warning)
+#include "SimpleTest.h"
 using namespace std;
 
 // Initialize variables
@@ -30,25 +30,20 @@ string soundex(string s);
 void soundexSearch();
 
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
+// Function that runs the entire encoding process, calling on helpers and returning the final code
 string soundex(string initialInput) {
-    string firstChar = repFirst(initialInput);
-    string letters = lettersOnly(initialInput);
-    string nums = encode(letters);
-    string noDupes = removeDuplicates(nums);
-    string noZeroes = removeZeroes(noDupes);
-    string code = fixLength(noZeroes);
-    return nums;
+    string letters = lettersOnly(initialInput); // get just the letters from a name
+    string firstChar = repFirst(initialInput); // extract the first character
+    string nums = encode(letters); // encode the entire name into numbers
+    string noDupes = removeDuplicates(nums); // get rid of adjacent duplicate numbers
+    string noFirst = noDupes.substr(1); // get rid of the first number (do this to handle edge cases)
+    string noZeroes = removeZeroes(noFirst); // get rid of all zeroes
+    string code = fixLength(noZeroes); // append zeroes or remove numbers as needed to get to 3 digits
+    return firstChar + code; // put together first letter and final 3-digit code
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
+// This provided code opens the specified file and reads the lines into a vector of strings
 void soundexSearch(string filepath) {
-    // This provided code opens the specified file
-    // and reads the lines into a vector of strings
     ifstream in;
     Vector<string> allNames;
 
@@ -64,16 +59,12 @@ void soundexSearch(string filepath) {
 }
 
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
-string repFirst(string intialInput) {
-    return std::to_string(initialInput[0]);
+// Extracts the first letter from the name, saving it in uppercase to be used in the code later on.
+string repFirst(string initialInput) {
+    return toUpperCase(string(1, initialInput[0]));
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
+// Gets rid of symbols and extracts all letters in the names
 string lettersOnly(string s) {
     string result = "";
     for (int i = 0; i < s.length(); i++) {
@@ -84,82 +75,68 @@ string lettersOnly(string s) {
     return result;
 }
 
-
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
+// Uses the "rules" provided in assignment to encode letters into numerical code
 string encode(string s) {
     string result = "";
-    string removeFirst = s.substr(1);
-    string input = toUpperCase(removeFirst);
+    string input = toUpperCase(s);
     for (char ch : input) {
-        if (ch == "A" || "E" || "I" || "O" || "U" || "H" || "W" || "Y") {
+        if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' || ch == 'H' || ch == 'W' || ch == 'Y') {
             result += "0";
         }
-        else if (ch == "B" || "F" || "P" || "V") {
+        else if (ch == 'B' || ch == 'F' || ch == 'P' || ch == 'V') {
             result += "1";
         }
-        else if (ch == "C" || "G" || "J" || "K" || "W" || "S" || "X" || "Z") {
+        else if (ch == 'C' || ch == 'G' || ch == 'J' || ch == 'K' || ch == 'Q' || ch == 'S' || ch == 'X' || ch == 'Z') {
             result += "2";
         }
-        else if (ch == "D" || "T") {
+        else if (ch == 'D' || ch == 'T') {
             result += "3";
         }
-        else if (ch == "L") {
+        else if (ch == 'L') {
             result += "4";
         }
-        else if (ch == "M" || "N") {
+        else if (ch == 'M' || ch == 'N') {
             result += "5";
         }
-        else if (ch == "R") {
+        else if (ch == 'R') {
             result += "6";
         }
     }
     return result;
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
+// Removes adjacent duplicate numbers as shown in assignment
 string removeDuplicates(string s) {
     string result = "";
-    for (int i = 0; i < s.length() - 1; i++) {
-        if (s[i] != s[i + 1]) {
-            result += s[i];
+    for (char c : s) {
+        if (result.length() != 0 && c == result.back()) { // checks that string length isn't 0, and last char is same as current
+            // do nothing, just don't add duplicate to the string
+        }
+        else {
+            result.push_back(c); // if not a duplicate, add to the back of the string
         }
     }
     return result;
 }
 
-/* TODO: Replace this comment with a descriptive function
- * header comment.
- */
-
-/*removeExtraZeroes (string)
- * if string is greater than 4
- * start at int 5 check if zeroes
- * then keep chekcing if 0s to end
- * cut 0
- * d4560004
- * d40560005
- *
- *
- */
+// Removes all zeroes from the string which already has duplicates removed
 string removeZeroes(string s) {
     string ret = "";
     for (int i = 0; i < s.length(); i++) {
-        if (s[i] != 0) {
+        if (s[i] != '0') {
             ret += s[i];
         }
     }
     return ret;
 }
 
+// Cuts off codes that are too long and attaches zeroes to codes that are too short
 string fixLength(string s) {
-    if (s.length() < 3) {
-        while (s.length() != 3) {
-            s += "0";
-        }
+    if (s.length() > 3) {
+        return s.substr(0, 3); // cut off codes that are too long
+    }
+    while (s.length() < 3) {
+        s += "0"; // keep adding zeroes if too short
     }
     return s;
 }
@@ -226,8 +203,6 @@ PROVIDED_TEST("Wharton begins with Wh") {
 }
 
 PROVIDED_TEST("Ashcraft is not a special case") {
-    // Some versions of Soundex make special case for consecutive codes split by hw
-    // We do not make this special case, just treat same as codes split by vowel
     EXPECT_EQUAL(soundex("Ashcraft"), "A226");
 }
 
