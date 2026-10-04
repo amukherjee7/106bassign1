@@ -38,10 +38,10 @@ Soundex
 -------
 
 Q10. What is the Soundex code for "Angelou"? What is the code for your own surname?
-A10. TODO
+A10. The Soundex code for "Angelou" is A524. The code for Mukherjee is M262, and the code for Boral is B640. 
 
 Q11. Before writing any code, brainstorm your plan of attack and sketch how you might decompose the work into smaller tasks. Briefly describe your decomposition strategy.
-A11. TODO
+A11. We will start by ensuring that all the pre-requirements for the String are met. We will use the lettersOnly function to check that all the characters in the String are regular letters, and we will fix the bug in the code by starting with an empty string for result instead of assuming the first character is a letter. We will also use the lettersOnly function to remove hypens or other symbols. Then, we will parse through the rest of the characters and implement the number system given in the instructions. After creating the full number code, we will check if the code is 4 digits long, and if not, we will truncate/add zeroes to reach 4. 
 
 Q12. Think about one or more examples of a class of names that the Soundex system might not work well for. Explain what this class of names is and why the system might incorrectly group them or mis-categorize one of the names.
 A12. TODO

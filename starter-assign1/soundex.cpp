@@ -15,35 +15,33 @@
 #include "SimpleTest.h" // IWYU pragma: keep (needed to quiet spurious warning)
 using namespace std;
 
-/* This function is intended to return a string which
- * includes only the letter characters from the original
- * (all non-letter characters are excluded)
- *
- * WARNING: The provided code is buggy!
- *
- * Use test cases to identify which inputs to this function
- * are incorrectly handled. Then, remove this comment and
- * replace it with a description of the bug you fixed.
- */
-string lettersOnly(string s) {
-    string result = charToString(s[0]);
-    for (int i = 1; i < s.length(); i++) {
-        if (isalpha(s[i])) {
-            result += s[i];
-        }
-    }
-    return result;
-}
+// Initialize variables
+string initialInput;
+string c;
+
+// Intialize functions
+string repFirst(string initialInput);
+string lettersOnly(string s);
+string encode(string s);
+string removeDuplicates(string s);
+string removeZeroes(string s);
+string fixLength(string s);
+string soundex(string s);
+void soundexSearch();
 
 
 /* TODO: Replace this comment with a descriptive function
  * header comment.
  */
-string soundex(string s) {
-    /* TODO: Fill in this function. */
-    return "";
+string soundex(string initialInput) {
+    string firstChar = repFirst(initialInput);
+    string letters = lettersOnly(initialInput);
+    string nums = encode(letters);
+    string noDupes = removeDuplicates(nums);
+    string noZeroes = removeZeroes(noDupes);
+    string code = fixLength(noZeroes);
+    return nums;
 }
-
 
 /* TODO: Replace this comment with a descriptive function
  * header comment.
@@ -65,6 +63,106 @@ void soundexSearch(string filepath) {
     /* TODO: Fill in the remainder of this function. */
 }
 
+
+/* TODO: Replace this comment with a descriptive function
+ * header comment.
+ */
+string repFirst(string intialInput) {
+    return std::to_string(initialInput[0]);
+}
+
+/* TODO: Replace this comment with a descriptive function
+ * header comment.
+ */
+string lettersOnly(string s) {
+    string result = "";
+    for (int i = 0; i < s.length(); i++) {
+        if (isalpha(s[i])) {
+            result += s[i];
+        }
+    }
+    return result;
+}
+
+
+/* TODO: Replace this comment with a descriptive function
+ * header comment.
+ */
+string encode(string s) {
+    string result = "";
+    string removeFirst = s.substr(1);
+    string input = toUpperCase(removeFirst);
+    for (char ch : input) {
+        if (ch == "A" || "E" || "I" || "O" || "U" || "H" || "W" || "Y") {
+            result += "0";
+        }
+        else if (ch == "B" || "F" || "P" || "V") {
+            result += "1";
+        }
+        else if (ch == "C" || "G" || "J" || "K" || "W" || "S" || "X" || "Z") {
+            result += "2";
+        }
+        else if (ch == "D" || "T") {
+            result += "3";
+        }
+        else if (ch == "L") {
+            result += "4";
+        }
+        else if (ch == "M" || "N") {
+            result += "5";
+        }
+        else if (ch == "R") {
+            result += "6";
+        }
+    }
+    return result;
+}
+
+/* TODO: Replace this comment with a descriptive function
+ * header comment.
+ */
+string removeDuplicates(string s) {
+    string result = "";
+    for (int i = 0; i < s.length() - 1; i++) {
+        if (s[i] != s[i + 1]) {
+            result += s[i];
+        }
+    }
+    return result;
+}
+
+/* TODO: Replace this comment with a descriptive function
+ * header comment.
+ */
+
+/*removeExtraZeroes (string)
+ * if string is greater than 4
+ * start at int 5 check if zeroes
+ * then keep chekcing if 0s to end
+ * cut 0
+ * d4560004
+ * d40560005
+ *
+ *
+ */
+string removeZeroes(string s) {
+    string ret = "";
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] != 0) {
+            ret += s[i];
+        }
+    }
+    return ret;
+}
+
+string fixLength(string s) {
+    if (s.length() < 3) {
+        while (s.length() != 3) {
+            s += "0";
+        }
+    }
+    return s;
+}
 
 /* * * * * * Test Cases * * * * * */
 
