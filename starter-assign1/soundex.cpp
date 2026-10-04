@@ -47,6 +47,8 @@ void soundexSearch(string filepath) {
     ifstream in;
     Vector<string> allNames;
     Vector<string> matchingNames;
+    string user_code;
+    string name_input;
 
     if (openFile(in, filepath)) {
         allNames = readLines(in);
@@ -55,14 +57,21 @@ void soundexSearch(string filepath) {
          << allNames.size() << " names found." << endl; // // The names read from file are now stored in Vector allNames
 
     // Get user input
-    string name_input = getLine("Input name: ");
-    string user_code = soundex(name_input);
-    for (int i = 0; i < allNames.size(); i++) {
-        if (soundex(allNames[i]) == user_code) {
-            matchingNames.add(allNames[i]);
+    name_input = getLine("Enter a surname (RETURN to quit): ");
+
+    while (name_input != "RETURN") {
+        matchingNames.clear(); // for every input, clear the matching names and start over
+        user_code = soundex(name_input);
+
+        for (int i = 0; i < allNames.size(); i++) {
+            if (soundex(allNames[i]) == user_code) {
+                matchingNames.add(allNames[i]);
+            }
         }
-    }
+    cout << "Soundex code: " << user_code << endl;
     cout << matchingNames << endl;
+    name_input = getLine("Enter a surname (RETURN to quit): ");
+    }
 }
 
 

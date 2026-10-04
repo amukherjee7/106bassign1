@@ -13,6 +13,7 @@ int main() {
 
     //findPerfects(40000);
     soundexSearch("res/surnames.txt");
+
     cout << endl << "main() completed." << endl;
     return 0;
 }
