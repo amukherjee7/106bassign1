@@ -1,3 +1,7 @@
+short_answer.txt
+Names: Anika Mukherjee, Srishti Boral
+Course: CS 106B
+
 Perfect Numbers
 ---------------
 
@@ -47,6 +51,6 @@ Q12. Think about one or more examples of a class of names that the Soundex syste
 A12. Names that have different spelling but differen pronounciations. Because Soundex classifies and makes a new code for a name based on its original spelling, it doesn't consider the different ways a name is spelled in different regions of the world or different time periods, which might change the original soundex code of the name, resulting in inaccurate matches when we do soundex search. For example in the Daitch–Mokotoff Soundex it considers the way Slavic names uses greater accuracy in matching names with similar pronounciations but different spellings representing a larger sample of the world population.
 
 Q13. Suppose you are a software engineer working for the U.S. government. You have been tasked with implementing a system that collects names as part of the Census survey and analyzes these names using a phonetic algorithm. Your boss suggests using Soundex and notes that the algorithm is only expected to work for ASCII-encoded strings, since supporting Unicode would require extra work and time. What would your response be and why? What representational harms might result from building a system that exclusively uses Soundex and/or ASCII?
-A13. TODO
+A13. I would not want to strictly use an ASCII system for Soundex as many names in the US rely on characters/accents/sounds that are not represented in ASCII. If we rely only on ASCII, we risk not representing a large majority of non-English names for US residents. Thus, I would argue that the extra work to incorporate Unicode into our Soundex is worth it.
 
 

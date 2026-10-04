@@ -1,13 +1,18 @@
-/* This file shows different ways to find perfect numbers.
+/*
+ * perfect.cpp
+ * Names: Anika Mukherjee, Srishti Boral
+ * Course: CS 106B
+ *
+ * Description: This file shows different ways to find perfect numbers.
  * It starts with a slow search that checks every single divisor a number should possibly have up to the number itself, then uses a smarter version that only checks up to the square root of the number,
  * and finally uses Euclid's method with Mersenne primes to find perfect numbers almost instantly.
  *
- * Something interesting I learned: after implementing the functions according to the instructions in the assignment,
- * I was scrolling through the table of perfect numbers when constructing some of my test cases and randomly noticed
- * that not a single one was odd. That meant my search was checking twice as many numbers as it needed to, using
- * twice the time and compute power. So I changed findPerfectsSmarter to skip odd numbers by counting up by 2 instead of 1.
- * After looking it up, I learned that nobody has proven odd perfect numbers can't exist, but none have ever been found, and if one exists it would probably be crazy large.
- * So for the sake of efficiency, I kept the change.
+ * Something interesting we learned: after implementing the functions according to the instructions in the assignment,
+ * We were scrolling through the table of perfect numbers when constructing some of our test cases and randomly noticed
+ * that not a single one was odd. That meant our search was checking twice as many numbers as it needed to, using
+ * twice the time and compute power. So we changed findPerfectsSmarter to skip odd numbers by counting up by 2 instead of 1.
+ * After looking it up, we learned that nobody has proven odd perfect numbers can't exist, but none have ever been found, and if one exists it would probably be crazy large.
+ * So for the sake of efficiency, we kept the change.
  */
 
 #include "console.h"

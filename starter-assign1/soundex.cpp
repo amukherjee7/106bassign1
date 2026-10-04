@@ -1,8 +1,12 @@
 /*
- * TODO: remove and replace this file header comment
- * This is a .cpp file you will edit and turn in.
- * Remove starter comments and add your own
- * comments on each function and on complex code sections.
+ * soundex.cpp
+ * Names: Anika Mukherjee, Srishti Boral
+ * Course: CS 106B
+ * Description: This file contains three main parts: the Soundex function, its helper functions, and the Soundex search function.
+ * Soundex is an algorithm that encodes the phonetic pronunciation of surnames. We recreated the encoding algorithm
+ * using a variety of helper functions which are defined below. Additionally, we created a console program that takes in
+ * a user input of a surname and returns matching surnames (same encoding) in Stanford's database. Finally, we created
+ * student test cases to demonstrate the efficacy of the program as a whole, as well as the intermediate helper functions.
  */
 #include <cctype>
 #include <fstream>
@@ -15,25 +19,29 @@
 #include "SimpleTest.h"
 using namespace std;
 
-// Initialize variables
-string initialInput;
-string c;
+// Constants
+const int CODE_LENGTH = 3;
 
-// Intialize functions
-string repFirst(string initialInput);
-string lettersOnly(string s);
-string encode(string s);
-string removeDuplicates(string s);
-string removeZeroes(string s);
-string fixLength(string s);
-string soundex(string s);
-void soundexSearch();
+// Initialize functions
+string getFirstLetter(string initialInput);
+string lettersOnly(string name);
+string encode(string name);
+string removeDuplicates(string name);
+string removeZeroes(string name);
+string fixLength(string name);
+string soundex(string name);
+void soundexSearch(string filepath);
 
 
-// Function that runs the entire encoding process, calling on helpers and returning the final code
+/*
+ * Returns Soundex code which consists of first letter of surname plus three encoded digits for the surname inputted
+ * into the function. Utilizes helper functions to execute the algorithm and handle edge cases.
+ * Parameter: initialInput (the surname to encode)
+ * Returns: Soundex code
+*/
 string soundex(string initialInput) {
     string letters = lettersOnly(initialInput); // get just the letters from a name
-    string firstChar = repFirst(initialInput); // extract the first character
+    string firstChar = getFirstLetter(letters); // extract the first character
     string nums = encode(letters); // encode the entire name into numbers
     string noDupes = removeDuplicates(nums); // get rid of adjacent duplicate numbers
     string noFirst = noDupes.substr(1); // get rid of the first number (do this to handle edge cases)
@@ -42,119 +50,140 @@ string soundex(string initialInput) {
     return firstChar + code; // put together first letter and final 3-digit code
 }
 
-// This provided code opens the specified file and reads the lines into a vector of strings
+/*
+ * Reads a file which contains all the possible last names in the Stanford Soundex database.
+ * Compares soundex code of the inputted last name to soundex codes of all the Stanford database names in the file and
+ * if a match is found adds to a new Vector, which is fully printed out to the console to end the function. Stops loop
+ * when user types "RETURN".
+ * Parameter: filePath (database of all Stanford last names)
+ * Returns: N/A (Prints in console all last names with matching soundex codes)
+*/
 void soundexSearch(string filepath) {
     ifstream in;
     Vector<string> allNames;
-    Vector<string> matchingNames;
-    string user_code;
-    string name_input;
+    string nameInput;
 
     if (openFile(in, filepath)) {
         allNames = readLines(in);
     }
-    cout << "Read file " << filepath << ", "
-         << allNames.size() << " names found." << endl; // // The names read from file are now stored in Vector allNames
+    cout << "Read file " << filepath << ", " << allNames.size() << " names found." << endl; // // The names read from file are now stored in Vector allNames
 
     // Get user input
-    name_input = getLine("Enter a surname (RETURN to quit): ");
+    nameInput = getLine("Enter a surname (RETURN to quit): ");
 
-    while (name_input != "RETURN") {
-        matchingNames.clear(); // for every input, clear the matching names and start over
-        user_code = soundex(name_input);
+    while (!nameInput.empty()) {
+        string userCode;
+        Vector<string> matchingNames;
+        userCode = soundex(nameInput);
 
         for (int i = 0; i < allNames.size(); i++) {
-            if (soundex(allNames[i]) == user_code) {
+            if (soundex(allNames[i]) == userCode) {
                 matchingNames.add(allNames[i]);
             }
         }
-    cout << "Soundex code: " << user_code << endl;
-    cout << matchingNames << endl;
-    name_input = getLine("Enter a surname (RETURN to quit): ");
+        matchingNames.sort();
+        cout << "Soundex code: " << userCode << endl;
+        cout << matchingNames << endl;
+        nameInput = getLine("Enter a surname (RETURN to quit): ");
     }
+
 }
 
 
-// Extracts the first letter from the name, saving it in uppercase to be used in the code later on.
-string repFirst(string initialInput) {
+/*
+ * Returns the first letter of the surname inputted, converting to uppercase to maintain consistency with other helper functions.
+ * Parameter: initialInput (the surname we were given)
+ * Returns: capitalized first letter of surname in a String
+ * Assumes the string isn't empty and contains letters.
+ */
+string getFirstLetter(string initialInput) {
     return toUpperCase(string(1, initialInput[0]));
 }
 
-// Gets rid of symbols and extracts all letters in the names
-string lettersOnly(string s) {
+/*
+ * Returns a copy of the surname with no symbols, accent marks, etc.
+ * Parameter: name (the surname, which could possibly include the special cases above)
+ * Returns: surname with only letters.
+*/
+string lettersOnly(string name) {
     string result = "";
-    for (int i = 0; i < s.length(); i++) {
-        if (isalpha(s[i])) {
-            result += s[i];
+    for (int i = 0; i < name.length(); i++) {
+        if (isalpha(name[i])) {
+            result += name[i];
         }
     }
     return result;
 }
 
-// Uses the "rules" provided in assignment to encode letters into numerical code
-string encode(string s) {
+/*
+ * Utilizes "rules" in assignment description to encode the surname into Soundex digits.
+ * Parameter: name (the given surname, now with only letters)
+ * Returns: a string of digits which corresponds to every letter in the surname
+ */
+string encode(string name) {
     string result = "";
-    string input = toUpperCase(s);
+    string input = toUpperCase(name);
     for (char ch : input) {
         if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' || ch == 'H' || ch == 'W' || ch == 'Y') {
             result += "0";
-        }
-        else if (ch == 'B' || ch == 'F' || ch == 'P' || ch == 'V') {
+        } else if (ch == 'B' || ch == 'F' || ch == 'P' || ch == 'V') {
             result += "1";
-        }
-        else if (ch == 'C' || ch == 'G' || ch == 'J' || ch == 'K' || ch == 'Q' || ch == 'S' || ch == 'X' || ch == 'Z') {
+        } else if (ch == 'C' || ch == 'G' || ch == 'J' || ch == 'K' || ch == 'Q' || ch == 'S' || ch == 'X' || ch == 'Z') {
             result += "2";
-        }
-        else if (ch == 'D' || ch == 'T') {
+        } else if (ch == 'D' || ch == 'T') {
             result += "3";
-        }
-        else if (ch == 'L') {
+        } else if (ch == 'L') {
             result += "4";
-        }
-        else if (ch == 'M' || ch == 'N') {
+        } else if (ch == 'M' || ch == 'N') {
             result += "5";
-        }
-        else if (ch == 'R') {
+        } else if (ch == 'R') {
             result += "6";
         }
     }
     return result;
 }
 
-// Removes adjacent duplicate numbers as shown in assignment
-string removeDuplicates(string s) {
+/*
+ * Removes adjacent duplicate Soundex digits in the surname so there are no repeats in a row.
+ * Parameters: name (encoded surname with all digits from encode function)
+ * Returns: updated string containing no adjacent duplicate digits.
+ */
+string removeDuplicates(string name) {
     string result = "";
-    for (char c : s) {
-        if (result.length() != 0 && c == result.back()) { // checks that string length isn't 0, and last char is same as current
-            // do nothing, just don't add duplicate to the string
-        }
-        else {
-            result.push_back(c); // if not a duplicate, add to the back of the string
+    for (char c : name) {
+        if (result.empty() || c != result.back()) { // checks that string length is 0, and last char is different than current
+            result.push_back(c);
         }
     }
     return result;
 }
 
-// Removes all zeroes from the string which already has duplicates removed
-string removeZeroes(string s) {
-    string ret = "";
-    for (int i = 0; i < s.length(); i++) {
-        if (s[i] != '0') {
-            ret += s[i];
+/*
+ * Removes ALL zeroes from encoded digits, as long as the string inputted has no adjacent duplicates.
+ * Parameter: name (encoded surname without adjacent duplicates)
+ * Returns: updated string containing only nonzero digits.
+ */
+string removeZeroes(string name) {
+    string result = "";
+    for (int i = 0; i < name.length(); i++) {
+        if (name[i] != '0') {
+            result += name[i];
         }
     }
-    return ret;
+    return result;
 }
 
-// Cuts off codes that are too long and attaches zeroes to codes that are too short
-string fixLength(string s) {
-    if (s.length() > 3) {
-        return s.substr(0, 3); // cut off codes that are too long
+/*
+ * Utilizes Soundex algorithm rules to confine the code to being exactly 3 digits long (code minus first letter), cutting off excess digits
+ * if too long, and padding zeroes to the end of the code if too short.
+ * Parameter: name (string of digits with zeroes)
+ * Returns: 3-character string with Soundex digits.
+ */
+string fixLength(string name) {
+    while (name.length() < CODE_LENGTH) {
+        name += "0";
     }
-    while (s.length() < 3) {
-        s += "0"; // keep adding zeroes if too short
-    }
-    return s;
+    return name.substr(0, CODE_LENGTH);
 }
 
 /* * * * * * Test Cases * * * * * */
@@ -254,8 +283,8 @@ STUDENT_TEST("removeDuplicates keeps all other repeats and single digits") {
     EXPECT_EQUAL(removeDuplicates("1"), "1");
 }
 
-STUDENT_TEST("replaceFirst swaps the first digit for the uppercase first letter") {
-    EXPECT_EQUAL(repFirst("Boral"), "B");
+STUDENT_TEST("getFirstLetter swaps the first digit for the uppercase first letter") {
+    EXPECT_EQUAL(getFirstLetter("Boral"), "B");
 }
 
 STUDENT_TEST("removeZeroes removes all zeros and keeps everything else") {

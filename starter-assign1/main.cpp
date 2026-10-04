@@ -18,15 +18,13 @@ int main() {
     return 0;
 }
 
-//test to make sure git is working
-
 // Do not remove or edit below this line. It is here to tom confirm that your code
 // conforms to the expected function prototypes needed for grading
 void confirmFunctionPrototypes() {
-    //long n = 0;
-    //bool b;
+    long n = 0;
+    bool b;
     string s;
-    /*
+
     n = divisorSum(n);
     b = isPerfect(n);
     findPerfects(n);
@@ -36,7 +34,7 @@ void confirmFunctionPrototypes() {
     findPerfectsSmarter(n);
 
     n = findNthPerfectEuclid(n);
-    */
+
     s = lettersOnly(s);
     s = soundex(s);
     soundexSearch(s);
